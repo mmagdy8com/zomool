@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+      <meta charset="UTF-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flipclock/0.7.8/flipclock.css">
+      <link rel="stylesheet" href="css/fonts.css">
+      <link rel="stylesheet" href="css/style.css">
+      <title></title>
+  </head>
+  <body>
+      <section class="Counter">
+          <div class="container">
+              <div class="row justify-content-center align-item-center">
+                  <div class="col-xxl-10 col-xl-12 cl-lg-12 col-md-12 col-12 text-center">
+                      <div class="logo">
+                          <img src="img/logo.png" alt="logo" class="img-fluid">
+                      </div>
+                      <h1 class="text-center">Something Awesome is Comming..!</h1>
+                      <div class="clock"></div>
+                      <form class="d-flex justify-content-center" role="search">
+                          <input class="form-control" type="email" placeholder="Email address" aria-label="Search">
+                          <button class="btn btn-warning" type="submit">Submit</button>
+                      </form>
+                      <a href="#" class="sign-up">Sign Up to get the updates...</a>
+                  </div>
+              </div>
+          </div>
+      </section>
+  </body>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
+      crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://momentjs.com/downloads/moment.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.14/moment-timezone-with-data-2012-2022.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/flipclock/0.7.8/flipclock.js"></script>
+
+  <script>
+
+    $(document).ready(function() {
+      let clock;
+
+      // Grab the current date
+      let currentDate = new Date();
+
+      // Target future date/24 hour time/Timezone
+      let targetDate = moment.tz("2023-06-30 23:59", "India/helhi");
+
+      // Calculate the difference in seconds between the future and current date
+      let diff = targetDate / 1000 - currentDate.getTime() / 1000;
+
+      if (diff <= 0) {
+        // If remaining countdown is 0
+        clock = $(".clock").FlipClock(0, {
+          clockFace: "DailyCounter",
+          countdown: true,
+          autostart: false
+        });
+        console.log("Date has already passed!")
+        
+      } else {
+        // Run countdown timer
+        clock = $(".clock").FlipClock(diff, {
+          clockFace: "DailyCounter",
+          countdown: true,
+          callbacks: {
+            stop: function() {
+              console.log("Timer has ended!")
+            }
+          }
+        });
+        
+        // Check when timer reaches 0, then stop at 0
+        setTimeout(function() {
+          checktime();
+        }, 1000);
+        
+        function checktime() {
+          t = clock.getTime();
+          if (t <= 0) {
+            clock.setTime(0);
+          }
+          setTimeout(function() {
+            checktime();
+          }, 1000);
+        }
+      }
+    });
+  </script>
+</html>
